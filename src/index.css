@@ -8,10 +8,9 @@ body {
 .wrapper {
   display: grid;
   grid-gap: 1%;
-  width: 90%;
 }
 
-hr {
+#container {
   width: 90%;
 }
 

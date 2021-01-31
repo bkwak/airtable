@@ -57,12 +57,12 @@ const Timeline = ({timelineItems}) => {
     // console.log(new Date(min), new Date(max), min, max);
             console.log(itemList);
     return (
-        <>
+        <div id="container">
             <hr/>    
             <div className='wrapper'>
                 {itemList}
             </div>
-        </>
+        </div>
     );
 };
 
