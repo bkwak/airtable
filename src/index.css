@@ -5,6 +5,16 @@ body {
 
 }
 
+.wrapper {
+  display: grid;
+  grid-gap: 1%;
+  width: 90%;
+}
+
+hr {
+  width: 90%;
+}
+
 .item {
   border: 1px solid blue;
   border-radius: 100px;
