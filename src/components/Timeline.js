@@ -20,7 +20,7 @@ const Timeline = ({timelineItems}) => {
         let row;
         while(cache[i]) {
             if(el.start > cache[i]) {
-                cache[i] = Math.max(el.end, cache[i]);
+                cache[i] = el.end;
                 row = i;
                 break;
             }
@@ -38,12 +38,6 @@ const Timeline = ({timelineItems}) => {
         el.position = `${row} / ${colStart} / ${row++} / ${colEnd}`;
     });
 
-    
-    
-    console.log(times.map(el => el.row));
-    console.log(times);
-    console.log(totalRows);
-
     const itemList = times.map((item,idx) => 
         (<Item 
             key={`item${item.id}`}
@@ -54,8 +48,7 @@ const Timeline = ({timelineItems}) => {
             position={item.position}
             index={idx}
         />));
-    // console.log(new Date(min), new Date(max), min, max);
-            console.log(itemList);
+
     return (
         <div id="container">
             <hr/>    

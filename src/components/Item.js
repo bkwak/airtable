@@ -9,6 +9,6 @@ export default function Item({index, id, name, start, end, position}) {
     }
 
     return (
-        <div className={`item item${index}`} style={style}>{name}</div>
+        <div className={`item item${index}`} style={style}>{id}</div>
     )
 }
