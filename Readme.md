@@ -27,7 +27,7 @@ Refactoring + Extra Functionality: 3+ hours
 
 ** How you made your design decisions. For example, if you looked at other timelines for inspiration, please note that.
 
-No inspiration, wanted to go from scratch and build from the ground up using vanilla React, js, and css
+Did get some inspiration from looking around briefly online, but wanted to go from scratch and build from the ground up using vanilla React, js, and css
 
 
 ** How you would test this if you had more time.
