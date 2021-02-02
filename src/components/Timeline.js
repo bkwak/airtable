@@ -1,78 +1,68 @@
-import React, {useState} from 'react';
-import Item from './Item'
+/**
+ * ************************************
+ *
+ * @module  Timeline
+ * @description contains the main css-grid for our timeline and 
+ *              transforms each timeline item object to be passed down to children
+ *
+ * ************************************
+ */
+
+
+import React, {useState, useMemo} from 'react';
+import Item from './Item';
+import prepareGrid from '../utils/prepareGrid.js';
+import prepareLegend from '../utils/prepareLegend.js';
 import '../index.css';
 
-const Timeline = ({timelineItems}) => {
-    //find upper/lower bounds for timeline dates
-    const [min, max] = searchTimes(timelineItems);
-    const totalRows = (max - min)/86400;
 
-    const times = timelineItems.map(el => {
-        return {...el, start: toSec(el.start), end: toSec(el.end)};
-    }).sort((a,b) => a.start-b.start);
+const Timeline = ({timelineItems, assign}) => {
+    
+    const times = prepareGrid(timelineItems);
 
-    const cache = {
-        1: -Infinity
-    }
+    const max = findMax(times);
+    const min = times[0].startSec;
+    const totalCols = (max - min)/86400; 
 
-    let i = 1;
-    times.forEach((el, idx) => {
-        let row;
-        while(cache[i]) {
-            if(el.start > cache[i]) {
-                cache[i] = el.end;
-                row = i;
-                break;
-            }
-            i += 1;
-        }
-        if(!cache[i]) {
-            row = i;
-            cache[i] = el.end;
-        }
-        i = 1;
-
-        //add col inormation
-        const colStart = (el.start - min)/86400 + 1;
-        const colEnd = (el.end - min)/86400 + 1;
-        el.position = `${row} / ${colStart} / ${row++} / ${colEnd}`;
-    });
-
-    const itemList = times.map((item,idx) => 
+    
+    const [list, setList] = useState(times);
+    
+    //state setter function to be passed to each timeline item
+    const updateItem = (id, newItem) => setList(list.map(
+        item => item.id === id ? newItem : item));
+    
+    //prepare grid content
+    const datesList = prepareLegend(min, totalCols);
+    
+    const itemList = list.map( item => 
         (<Item 
             key={`item${item.id}`}
-            start={item.start} 
-            end={item.end} 
-            name={item.name}
-            id={item.id} 
-            position={item.position}
-            index={idx}
+            item={item}
+            assign={assign}
+            edit={updateItem}
         />));
-
+    
+    //css-grid styling for the parent component
+    const style = { "gridTemplateColumns": `repeat(${totalCols + 1}, 1fr)`};
+                
     return (
         <div id="container">
-            <hr/>    
-            <div className='wrapper'>
+            <div className='wrapper' style={style}>
+                {datesList}
                 {itemList}
             </div>
         </div>
     );
 };
 
-const toSec = (dateString) => {
-    return Date.parse(new Date(dateString))/1000;
-};
 
-const searchTimes = (array) => {
-    let min = toSec(array[0].start);
-    let max = toSec(array[0].end)
-    array.forEach(item => {
-        min = Math.min(min, toSec(item.start));
-        max = Math.max(max, toSec(item.end));
+//finds the latest end date of all timeline items
+const findMax = (array) => {
+    let max = 0;
+    array.forEach(el => {
+        if(el.endSec > max) max = el.endSec;
     });
-
-    return [min, max];
+    return max;
 }
-
 
 export default Timeline;
