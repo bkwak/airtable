@@ -3,8 +3,10 @@
 Design and implement a component for visualizing events on a timeline.
 
 ## Time Invested:
-Basic Functionality: 3+ hours
+Basic Functionality: 3+ hours,
+
 Refactoring + Extra Functionality: 3+ hours
+
 
 ## Implementation:
 
